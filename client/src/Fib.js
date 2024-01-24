@@ -23,8 +23,8 @@ class Fib extends Component {
         this.setState({ seenIndices: seenIndices.data });
     }
 
-    onInputChange(event) {
-        this.setState({ index: event.target.value });
+    onInputChange = (event) => {
+        this.setState({ index: event?.target.value });
     }
 
     handleSubmit = async (event) => {
@@ -32,7 +32,7 @@ class Fib extends Component {
 
         await axios.post('/api/values', {
             index: this.state.index
-        });
+        }).catch(err => console.log('Bad Request error: ', err.message));
 
         this.setState({ index: '' });
     }
@@ -46,7 +46,7 @@ class Fib extends Component {
 
         for (let key in this.state.values) {
             entries.push(
-                <div key={key}>For index {key} I calculated {this.state.values[{key}]}</div>
+                <div key={key}>For index {key} I calculated {this.state.values[key]}</div>
             )
         }
 
@@ -60,7 +60,7 @@ class Fib extends Component {
                     <label>Enter the index:</label>
                     <input
                     value={this.state.index}
-                    onChange={this.onInputChange()}
+                    onChange={this.onInputChange}
                     ></input>
                     <button>Submit</button>
                 </form>
