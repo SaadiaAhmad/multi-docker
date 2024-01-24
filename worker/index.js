@@ -11,6 +11,7 @@ const sub = redisClient.duplicate(); //creates a duplicate redis connection
 
 function fib(index) {
     if(index < 2) return 1;
+    if(index > 40 ) return 0;
     return fib(index - 1) + fib(index - 2);
 }
 
