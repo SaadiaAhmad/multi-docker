@@ -51,7 +51,10 @@ app.get('/values/current', async(req, res) => {
 
 app.post('/values', async(req, res) => {
     const index = req.body.index;
-    if(parseInt(index) > 40) res.status(422).send('Index too high');
+    if(parseInt(index) > 40) {
+        res.status(422).send('Index too high');
+        return;
+    }
 
     redisClient.hset('values', index, 'Nothing yet');
     redisPublisher.publish('insert', index);
