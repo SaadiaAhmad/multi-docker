@@ -6,8 +6,8 @@ before_install:
   - docker build -t saadia45/complex-react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run saadia45/complex-react-test npm test -- --coverage
-  - OR you should update to latest script
+  # docker run saadia45/complex-react-test npm test -- --coverage
+  # OR you should update to latest script
   - docker run -e CI=true saadia45/complex-react-test npm test
 
 after_success:
@@ -15,4 +15,10 @@ after_success:
   - docker build -t saadia45/multi-nginx ./nginx
   - docker build -t saadia45/multi-server ./server
   - docker build -t saadia45/multi-worker ./worker
-
+  # Log in to Docker CLI (Docker Desktop)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to Docker Hub
+  - docker push saadia45/multi-client
+  - docker push saadia45/multi-nginx
+  - docker push saadia45/multi-server
+  - docker push saadia45/multi-worker
