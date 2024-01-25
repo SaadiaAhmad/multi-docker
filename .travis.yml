@@ -10,6 +10,18 @@ script:
   # OR you should update to latest script
   - docker run -e CI=true saadia45/complex-react-test npm test
 
+deploy:
+  provider: elasticbeanstalk # some predefined ones available in travisCI which includes instructions by default
+  region: "us-west-2" # region where the elasticbeanstalk instance got created
+  app: "multi-docker" # name of the elasticbeanstalk app you created
+  env: "MultiDocker-env" # name of the app running inside the AWS docker app referred to as environment
+  bucket_name: "elasticbeanstalk-us-west-2-19308558949" # name of the S3 bucket which is already generated when you generated the AWS app
+  bucket_path: "docker-multi" # by default it is same folder name as the project app
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
 after_success:
   - docker build -t saadia45/multi-client ./client
   - docker build -t saadia45/multi-nginx ./nginx
